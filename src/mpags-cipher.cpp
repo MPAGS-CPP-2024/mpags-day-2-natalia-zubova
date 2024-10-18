@@ -16,6 +16,8 @@ int main(int argc, char* argv[])
     bool versionRequested{false};
     std::string inputFileName{""};
     std::string outputFileName{""};
+    bool encrypt{true};
+    int key{0};
 
     // Process command line arguments - ignore zeroth element, as we know this
     // to be the program name and don't need to worry about it
@@ -63,11 +65,11 @@ int main(int argc, char* argv[])
 
     // Read in user input from stdin/file
     if (!inputFile.good()) {
-        std::cerr << "Input file is not found, using stdin\n";
+        std::cerr << "Input file not found or broken, using stdin\n";
         // loop over each character from user input
         while (std::cin >> inputChar) {
-        inputText += transformChar(inputChar);
-    }
+            inputText += transformChar(inputChar);
+        }
     }
     else {
         // loop over each character from input file
@@ -80,8 +82,7 @@ int main(int argc, char* argv[])
     // Print out the transliterated text if output file is not specified 
     // or write to file
     if (!outputFile.good()) {
-        std::cerr << "Output to file ('" << outputFileName
-                  << "') not found, using stdout\n";
+        std::cerr << "Output to file not found or broken, using stdout\n";
         std::cout << inputText << std::endl;
     }
     else {
