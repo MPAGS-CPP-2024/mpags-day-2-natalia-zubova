@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
     bool versionRequested{false};
     std::string inputFileName{""};
     std::string outputFileName{""};
-    bool encrypt{true};
+    bool encrypt{false};
     int key{5};
     std::string outputText{""};
 
