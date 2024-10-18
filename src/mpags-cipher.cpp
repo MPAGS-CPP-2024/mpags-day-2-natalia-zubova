@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "TransformChar.hpp"
 #include "ProcessCommandLine.hpp"
 
@@ -9,13 +10,12 @@ int main(int argc, char* argv[])
 {
     // Convert the command-line arguments into a more easily usable form
     const std::vector<std::string> cmdLineArgs{argv, argv + argc};
-    // const std::size_t nCmdLineArgs{cmdLineArgs.size()};
-
+    
     // Options that might be set by the command-line arguments
     bool helpRequested{false};
     bool versionRequested{false};
-    std::string inputFile{""};
-    std::string outputFile{""};
+    std::string inputFileName{""};
+    std::string outputFileName{""};
 
     // Process command line arguments - ignore zeroth element, as we know this
     // to be the program name and don't need to worry about it
@@ -23,9 +23,12 @@ int main(int argc, char* argv[])
         cmdLineArgs,
         helpRequested,
         versionRequested,
-        inputFile,
-        outputFile
+        inputFileName,
+        outputFileName
     );
+
+    std::ifstream inputFile {inputFileName};
+    std::ofstream outputFile {outputFileName};
 
     // Handle help, if requested
     if (helpRequested) {
@@ -59,26 +62,36 @@ int main(int argc, char* argv[])
     std::string inputText;
 
     // Read in user input from stdin/file
-    // Warn that input file option not yet implemented
-    if (!inputFile.empty()) {
-        std::cerr << "[warning] input from file ('" << inputFile
-                  << "') not implemented yet, using stdin\n";
-    }
-
-    // loop over each character from user input
-    while (std::cin >> inputChar) {
+    if (!inputFile.good()) {
+        std::cerr << "Input file is not found, using stdin\n";
+        // loop over each character from user input
+        while (std::cin >> inputChar) {
         inputText += transformChar(inputChar);
     }
-
-    // Print out the transliterated text
-
-    // Warn that output file option not yet implemented
-    if (!outputFile.empty()) {
-        std::cerr << "[warning] output to file ('" << outputFile
-                  << "') not implemented yet, using stdout\n";
+    }
+    else {
+        // loop over each character from input file
+        std::cout << "Using input file '" << inputFileName << "'\n";
+        while (inputFile >> inputChar) {
+            inputText += transformChar(inputChar);
+        }
+    }    
+    
+    // Print out the transliterated text if output file is not specified 
+    // or write to file
+    if (!outputFile.good()) {
+        std::cerr << "Output to file ('" << outputFileName
+                  << "') not found, using stdout\n";
+        std::cout << inputText << std::endl;
+    }
+    else {
+        outputFile << inputText << std::endl;
+        std::cout << "Output written to file '" << outputFileName << "'\n";
     }
 
-    std::cout << inputText << std::endl;
+    // close files 
+    inputFile.close();
+    outputFile.close();
 
     // No requirement to return from main, but we do so for clarity
     // and for consistency with other functions
