@@ -5,6 +5,7 @@
 #include <fstream>
 #include "TransformChar.hpp"
 #include "ProcessCommandLine.hpp"
+#include "RunCaesarCipher.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -17,7 +18,8 @@ int main(int argc, char* argv[])
     std::string inputFileName{""};
     std::string outputFileName{""};
     bool encrypt{true};
-    int key{0};
+    int key{5};
+    std::string outputText{""};
 
     // Process command line arguments - ignore zeroth element, as we know this
     // to be the program name and don't need to worry about it
@@ -68,25 +70,31 @@ int main(int argc, char* argv[])
         std::cerr << "Input file not found or broken, using stdin\n";
         // loop over each character from user input
         while (std::cin >> inputChar) {
-            inputText += transformChar(inputChar);
+            // inputText += transformChar(inputChar);
+            inputText += inputChar;
         }
     }
     else {
         // loop over each character from input file
         std::cout << "Using input file '" << inputFileName << "'\n";
         while (inputFile >> inputChar) {
-            inputText += transformChar(inputChar);
+            // inputText += transformChar(inputChar);
+            inputText += inputChar;
         }
     }    
+
+    outputText = runCaesarCipher(inputText, key, encrypt);
+    // encrypt = false;
+    // outputText = runCaesarCipher(inputText, key, encrypt);
     
     // Print out the transliterated text if output file is not specified 
     // or write to file
     if (!outputFile.good()) {
         std::cerr << "Output to file not found or broken, using stdout\n";
-        std::cout << inputText << std::endl;
+        std::cout << outputText << std::endl;
     }
     else {
-        outputFile << inputText << std::endl;
+        outputFile << outputText << std::endl;
         std::cout << "Output written to file '" << outputFileName << "'\n";
     }
 
