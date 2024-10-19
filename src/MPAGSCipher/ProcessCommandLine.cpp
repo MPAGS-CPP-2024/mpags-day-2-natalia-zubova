@@ -50,7 +50,7 @@ bool processCommandLine(
         } else if (cmdLineArgs[i] == "-m") {
         //  mode of cipher: encrypt/decrypt
             if (i == nCmdLineArgs - 1) {
-                    std::cerr << "[error] -o requires a filename argument"
+                    std::cerr << "[error] -m requires a cipher's mode argument"
                             << std::endl;
                     // exit main with non-zero return to indicate failure
                     return 1;
