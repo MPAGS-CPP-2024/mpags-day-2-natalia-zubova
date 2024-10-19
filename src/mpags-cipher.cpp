@@ -18,17 +18,18 @@ int main(int argc, char* argv[])
     std::string inputFileName{""};
     std::string outputFileName{""};
     bool encrypt{false};
-    int key{5};
+    size_t key{0};
     std::string outputText{""};
 
-    // Process command line arguments - ignore zeroth element, as we know this
-    // to be the program name and don't need to worry about it
+    // Process command line arguments
     processCommandLine(
         cmdLineArgs,
         helpRequested,
         versionRequested,
         inputFileName,
-        outputFileName
+        outputFileName,
+        encrypt,
+        key
     );
 
     std::ifstream inputFile {inputFileName};
@@ -82,15 +83,16 @@ int main(int argc, char* argv[])
             inputText += inputChar;
         }
     }    
-
     outputText = runCaesarCipher(inputText, key, encrypt);
-    // encrypt = false;
-    // outputText = runCaesarCipher(inputText, key, encrypt);
+
+    // testing that cipher works correctly
+    // encrypt = not encrypt;
+    // outputText = runCaesarCipher(outputText, key, encrypt);
     
     // Print out the transliterated text if output file is not specified 
     // or write to file
     if (!outputFile.good()) {
-        std::cerr << "Output to file not found or broken, using stdout\n";
+        std::cerr << "Output file not found or broken, using stdout\n";
         std::cout << outputText << std::endl;
     }
     else {

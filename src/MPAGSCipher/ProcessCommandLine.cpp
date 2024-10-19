@@ -8,10 +8,12 @@ bool processCommandLine(
     bool& helpRequested,
     bool& versionRequested,
     std::string& inputFile,
-    std::string& outputFile
+    std::string& outputFile,
+    bool& encrypt,
+    size_t& key
 )
 {
-    // Process command line arguments - ignore zeroth element, as we know this
+    // ignore zeroth element, as we know this
     // to be the program name and don't need to worry about it
     const std::size_t nCmdLineArgs{cmdLineArgs.size()};
     for (std::size_t i{1}; i < nCmdLineArgs; ++i) {
@@ -43,6 +45,44 @@ bool processCommandLine(
             } else {
                 // Got filename, so assign value and advance past it
                 outputFile = cmdLineArgs[i + 1];
+                ++i;
+            }
+        } else if (cmdLineArgs[i] == "-m") {
+        //  mode of cipher: encrypt/decrypt
+            if (i == nCmdLineArgs - 1) {
+                    std::cerr << "[error] -o requires a filename argument"
+                            << std::endl;
+                    // exit main with non-zero return to indicate failure
+                    return 1;
+                }
+            {
+                if (cmdLineArgs[i + 1] == "encrypt")
+                {
+                    encrypt = true;
+                }
+                else if (cmdLineArgs[i + 1] == "decrypt")
+                {
+                    encrypt = false;
+                }
+                else
+                {
+                    std::cerr << "[error] -m argument accept only encrypt/decrypt modes"
+                            << std::endl;
+                    // exit main with non-zero return to indicate failure
+                    return 1;
+                }
+            }
+            ++i;
+        } else if (cmdLineArgs[i] == "-k") {
+            if (i == nCmdLineArgs - 1) {
+                    std::cerr << "[error] -k argument requires a key argument"
+                            << std::endl;
+                    // exit main with non-zero return to indicate failure
+                    return 1;
+                }
+            else
+            {   
+                key = std::stoul(cmdLineArgs[i + 1]);
                 ++i;
             }
         } else {

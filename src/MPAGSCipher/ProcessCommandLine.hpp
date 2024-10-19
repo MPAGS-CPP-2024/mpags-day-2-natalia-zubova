@@ -9,7 +9,9 @@ bool processCommandLine(
     bool& helpRequested,
     bool& versionRequested,
     std::string& inputFile,
-    std::string& outputFile
+    std::string& outputFile,
+    bool& encrypt,
+    size_t& key
 );
 
 #endif // PROCESSCOMMANDLINE_HPP

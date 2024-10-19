@@ -28,9 +28,7 @@ std::string runCaesarCipher(
         }
         else{
             outputString += alphabet[(alphabet.find(inputLetter) + alphabetSize - key) % alphabetSize];
-
         }
-        
     }
     
     // Finally (after the loop), return the output string
