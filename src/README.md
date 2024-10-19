@@ -16,7 +16,9 @@ and change directory into that holding this README. Then run:
 ```
 $ ls
 LICENSE          README.md        mpags-cipher.cpp
-$ g++ -std=c++11 -Wall -Wextra -Werror -Wfatal-errors -pedantic -Wshadow -o mpags-cipher mpags-cipher.cpp
+$ cd ../build
+$ cmake ../src
+$ make -j2
 $ ./mpags-cipher
 ```
 
@@ -34,9 +36,14 @@ The results of this transliteration are output after CTRL-D.
 ## Source code layout
 ```
 .
-├── LICENSE             License file, in our case MIT
-├── mpags-cipher.cpp    Main program C++ source file
-└── README.md           This file, describes the project
+├── LICENSE                     License file, in our case MIT
+├── MPAGSCipher
+│   ├── ProcessCommandLine.cpp  Function for processing command line arguments
+│   ├── ProcessCommandLine.hpp  Declararation of ProcessCommandLine function
+│   ├── TransformChar.cpp       Function to transform input character according to mpags-cipher rules described above
+│   └── TransformChar.hpp       Declaration of TransformChar function
+├── mpags-cipher.cpp            Main program C++ source file
+└── README.md                   This file, describes the project
 ```
 
 ## Copying
