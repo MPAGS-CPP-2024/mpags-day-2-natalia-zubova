@@ -16,7 +16,7 @@ and change directory into that holding this README. Then run:
 ```
 $ ls
 LICENSE          README.md        mpags-cipher.cpp
-$ cd ../build
+$ cd build
 $ cmake ../src
 $ make -j2
 $ ./mpags-cipher

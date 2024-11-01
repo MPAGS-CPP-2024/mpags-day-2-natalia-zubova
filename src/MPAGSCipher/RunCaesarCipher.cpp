@@ -25,8 +25,7 @@ std::string runCaesarCipher(
     {   
         if (encrypt){
             outputString += alphabet[(alphabet.find(inputLetter) + key) % alphabetSize];
-        }
-        else{
+        } else {
             outputString += alphabet[(alphabet.find(inputLetter) + alphabetSize - key) % alphabetSize];
         }
     }

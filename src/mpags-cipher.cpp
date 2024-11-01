@@ -48,6 +48,8 @@ int main(int argc, char* argv[])
             << "                   Stdin will be used if not supplied\n\n"
             << "  -o FILE          Write processed text to FILE\n"
             << "                   Stdout will be used if not supplied\n\n"
+            << "  -k KEY           Specify the key to be used for the encryption/decryption\n"
+            << "  -m MODE          Accept values encrypt/decrypt for mode of cipher\n"
             << std::endl;
         // Help requires no further action, so return from main
         // with 0 used to indicate success
@@ -74,28 +76,27 @@ int main(int argc, char* argv[])
             // inputText += transformChar(inputChar);
             inputText += inputChar;
         }
-    }
-    else {
+    } else {
         // loop over each character from input file
         std::cout << "Using input file '" << inputFileName << "'\n";
         while (inputFile >> inputChar) {
             // inputText += transformChar(inputChar);
             inputText += inputChar;
         }
-    }    
+    }
+
     outputText = runCaesarCipher(inputText, key, encrypt);
 
     // testing that cipher works correctly
-    // encrypt = not encrypt;
-    // outputText = runCaesarCipher(outputText, key, encrypt);
+    encrypt = not encrypt;
+    outputText = runCaesarCipher(outputText, key, encrypt);
     
     // Print out the transliterated text if output file is not specified 
     // or write to file
     if (!outputFile.good()) {
         std::cerr << "Output file not found or broken, using stdout\n";
         std::cout << outputText << std::endl;
-    }
-    else {
+    } else {
         outputFile << outputText << std::endl;
         std::cout << "Output written to file '" << outputFileName << "'\n";
     }

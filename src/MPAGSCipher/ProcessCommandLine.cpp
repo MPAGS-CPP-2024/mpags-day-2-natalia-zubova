@@ -48,26 +48,21 @@ bool processCommandLine(
                 ++i;
             }
         } else if (cmdLineArgs[i] == "-m") {
-        //  mode of cipher: encrypt/decrypt
+            //  mode of cipher: encrypt/decrypt
             if (i == nCmdLineArgs - 1) {
-                    std::cerr << "[error] -m requires a cipher's mode argument"
-                            << std::endl;
-                    // exit main with non-zero return to indicate failure
-                    return 1;
-                }
-            {
-                if (cmdLineArgs[i + 1] == "encrypt")
-                {
+                std::cerr << "[error] -o requires a filename argument"
+                          << std::endl;
+                // exit main with non-zero return to indicate failure
+                return 1;
+            } else {
+                if (cmdLineArgs[i + 1] == "encrypt") {
                     encrypt = true;
-                }
-                else if (cmdLineArgs[i + 1] == "decrypt")
-                {
+                } else if (cmdLineArgs[i + 1] == "decrypt") {
                     encrypt = false;
-                }
-                else
-                {
-                    std::cerr << "[error] -m argument accept only encrypt/decrypt modes"
-                            << std::endl;
+                } else {
+                    std::cerr
+                        << "[error] -m argument accept only encrypt/decrypt modes"
+                        << std::endl;
                     // exit main with non-zero return to indicate failure
                     return 1;
                 }
@@ -75,13 +70,11 @@ bool processCommandLine(
             ++i;
         } else if (cmdLineArgs[i] == "-k") {
             if (i == nCmdLineArgs - 1) {
-                    std::cerr << "[error] -k argument requires a key argument"
-                            << std::endl;
-                    // exit main with non-zero return to indicate failure
-                    return 1;
-                }
-            else
-            {   
+                std::cerr << "[error] -k argument requires a key argument"
+                          << std::endl;
+                // exit main with non-zero return to indicate failure
+                return 1;
+            } else {
                 key = std::stoul(cmdLineArgs[i + 1]);
                 ++i;
             }
